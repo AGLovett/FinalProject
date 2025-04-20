@@ -11,3 +11,9 @@ import random
 def main():
     clock = pygame.time.clock()
     fps = 60
+
+    player = player()
+    obstacles = []
+    spawn_timer = 0
+    score = 0
+

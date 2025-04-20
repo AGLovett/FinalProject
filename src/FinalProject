@@ -22,7 +22,7 @@ def main():
         clock.tick(fps)
         spawn_timer += 1
 
-      # Events (quitting and jumping)  
+     # Events (quitting and jumping)  
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -35,4 +35,16 @@ def main():
         obstacles.append(Obstacles())
         spawn_timer = 0
 
+    #updated game object
+    player.update()
+    for obstacle in obstacles:
+        obstacle.update()
+
+    #Collision
+    for obstacle in obstacles:
+        if player.rect.colliderect(obstacle.rect):
+            running = False
+
         
+        
+

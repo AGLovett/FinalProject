@@ -45,6 +45,12 @@ def main():
         if player.rect.colliderect(obstacle.rect):
             running = False
 
+    #Score keeping!
+    for obstacle in obstacles:
+        if not obstacle.passed and obstacle.rect.right < player.rect.left:
+            score += 1
+            obstacle.passed = True
+
         
         
 

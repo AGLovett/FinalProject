@@ -29,3 +29,10 @@ def main():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 player.jump()
+
+    # obstacles 
+    if spawn_timer >= 60:
+        obstacles.append(Obstacles())
+        spawn_timer = 0
+
+        

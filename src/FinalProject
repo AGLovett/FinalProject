@@ -17,3 +17,9 @@ def main():
     spawn_timer = 0
     score = 0
 
+    running = True
+    while running:
+        clock.tick(fps)
+        spawn_timer += 1
+
+        

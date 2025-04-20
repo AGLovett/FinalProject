@@ -51,6 +51,11 @@ def main():
             score += 1
             obstacle.passed = True
 
+    #removing inactive obstacles
+    obstacles = [obs for obs in obstacles if obs.active ]
+
+    
+
         
         
 

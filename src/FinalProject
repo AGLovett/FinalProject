@@ -6,6 +6,10 @@ import random
 
 
 
+
+
+
+
 #in main clock, obstacles, collision, counting score, 
 #removing "dead obstecles", drawing shapes to be replaced later, and displaying s
 def main():
@@ -54,7 +58,30 @@ def main():
     #removing inactive obstacles
     obstacles = [obs for obs in obstacles if obs.active ]
 
-    
+    #place holder background
+    WIN.fill(WHITE)
+    pygame.draw.rect(WIN, BLACK, (0, HEIGHT - 10, WIDTH, 10))  # Ground
+
+    # placeholder player 
+    pygame.draw.rect(WIN, RED, player.rect)
+
+    #placeholder obstacles
+    for obstacle in obstacles:
+        pygame.draw.rect(WIN, BLACK, obstacle.rect)
+
+    # displaying score
+    font = pygame.font.Font(None, 36)
+    text = font.render(f"Obstacles Hopped: {score}", True, BLACK)
+    WIN.blit(text, (10,10))
+
+    pygame.display.update()
+
+    pygame.quit()
+
+    if __name__ == "__main__":
+        main()
+
+
 
         
         

@@ -29,6 +29,10 @@ class Player:
         self.velocity = 0
         self.on_ground = True
 
+    def jump(self):
+        if self.on_ground:
+            self.velocity = PLAYER_JUMP
+            self.on_ground = False
 
 
 

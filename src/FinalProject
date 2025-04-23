@@ -23,7 +23,11 @@ GRAVITY = 1
 OBSTACLE_WIDTH, OBSTACLE_HEIGHT = 30, 50
 OBSTACLE_SPEED = 7
 
-
+class Player:
+    def __init__(self):
+        self.rect = pygame.Rect(100, HEIGHT - PLAYER_HEIGHT - 10, PLAYER_WIDTH, PLAYER_HEIGHT)
+        self.velocity = 0
+        self.on_ground = True
 
 
 

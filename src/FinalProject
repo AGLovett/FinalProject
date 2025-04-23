@@ -43,6 +43,16 @@ class Player:
             self.on_ground = True
             self.velocity = 0
 
+class Obstacle:
+    def __init__(self):
+        self.rect = pygame.Rect(WIDTH, HEIGHT - OBSTACLE_HEIGHT - 10, OBSTACLE_WIDTH, OBSTACLE_HEIGHT)
+        self.active = True
+        self.passed = False #tracks if obstacle was passed
+
+    def update(self):
+        self.rect.x -= OBSTACLE_SPEED
+        if self.rect.right < 0:
+            self.active = False
 
 
 #in main clock, obstacles, collision, counting score, 

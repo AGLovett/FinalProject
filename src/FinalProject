@@ -34,6 +34,14 @@ class Player:
             self.velocity = PLAYER_JUMP
             self.on_ground = False
 
+    def update(self):
+        self.velocity += GRAVITY
+        self.rect.y += self.velocity
+
+        if self.rect.bottom >= HEIGHT - 10:
+            self.rect.bottom = HEIGHT - 10
+            self.on_ground = True
+            self.velocity = 0
 
 
 

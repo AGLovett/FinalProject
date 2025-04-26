@@ -9,7 +9,7 @@ WIDTH, HEIGHT = 800, 400
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(" Get home kitty!")
 
-# Colors
+# Colors will remove once everything is done 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -73,7 +73,7 @@ class Player:
             self.velocity = 0
         
 
-        self.update_animation()
+        self.updated_animation()
 class Obstacle:
     def __init__(self):
         self.rect = pygame.Rect(WIDTH, HEIGHT - OBSTACLE_HEIGHT - 10, OBSTACLE_WIDTH, OBSTACLE_HEIGHT)

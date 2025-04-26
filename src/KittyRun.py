@@ -1,6 +1,7 @@
 import pygame 
 import random
 
+
 pygame.init()
 
 # Game window

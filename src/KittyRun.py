@@ -7,17 +7,22 @@ pygame.init()
 # Game window
 WIDTH, HEIGHT = 800, 400
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-
+pygame.display.set_caption(" Get home kitty!")
 
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 
-# Player settings
+# Loading in sprite sheet!
+SPRITE_SHEET = pygame.image.load("Kitty.png").convert_alpha()
+
+
+#  New Player settings
 PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
-PLAYER_JUMP = -15
-GRAVITY = 1
+FRAME_COUNT = 4 # 4 frames in walk cycle
+ANIMATION_SPEED = 5 # might change based on everything else
+
 
 # Obstacle settings
 OBSTACLE_WIDTH, OBSTACLE_HEIGHT = 30, 50

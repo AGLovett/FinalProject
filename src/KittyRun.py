@@ -23,6 +23,12 @@ PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
 FRAME_COUNT = 4 # 4 frames in walk cycle
 ANIMATION_SPEED = 5 # might change based on everything else
 
+PLAYER_FRAMES = []
+for i in range(FRAME_COUNT):
+    frame = SPRITE_SHEET.subsurface(
+        (i * PLAYER_WIDTH, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+    )
+    PLAYER_FRAMES.append(frame)
 
 # Obstacle settings
 OBSTACLE_WIDTH, OBSTACLE_HEIGHT = 30, 50

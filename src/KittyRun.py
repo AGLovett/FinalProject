@@ -22,6 +22,8 @@ SPRITE_SHEET = pygame.image.load("Kitty.png").convert_alpha()
 PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
 FRAME_COUNT = 4 # 4 frames in walk cycle
 ANIMATION_SPEED = 5 # might change based on everything else
+PLAYER_JUMP = -15
+GRAVITY = 1
 
 PLAYER_FRAMES = []
 for i in range(FRAME_COUNT):
@@ -36,14 +38,30 @@ OBSTACLE_SPEED = 7
 
 class Player:
     def __init__(self):
-        self.rect = pygame.Rect(100, HEIGHT - PLAYER_HEIGHT - 10, PLAYER_WIDTH, PLAYER_HEIGHT)
+        self.frames = PLAYER_FRAMES
+        self.current_frame = 0
+        self.animation_counter = 0
+        self.image = self.frames[self.current_frame]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (100, HEIGHT - PLAYER_HEIGHT - 10)
         self.velocity = 0
         self.on_ground = True
+
+    def updated_animation(self):  #animated while on ground
+        if self.on_ground:
+            self.animation_counter += 1
+            if self.animation_counter >= ANIMATION_SPEED:
+                self.animation_counter = 0
+                self.current_frame = (self.current_frame + 1) % FRAME_COUNT
+                self.image = self.frames[self.current_frame]
+        
 
     def jump(self):
         if self.on_ground:
             self.velocity = PLAYER_JUMP
             self.on_ground = False
+            self.current_frame = 0
+            self.image = self.frames[self.current_frame]
 
     def update(self):
         self.velocity += GRAVITY
@@ -53,7 +71,9 @@ class Player:
             self.rect.bottom = HEIGHT - 10
             self.on_ground = True
             self.velocity = 0
+        
 
+        self.update_animation()
 class Obstacle:
     def __init__(self):
         self.rect = pygame.Rect(WIDTH, HEIGHT - OBSTACLE_HEIGHT - 10, OBSTACLE_WIDTH, OBSTACLE_HEIGHT)
@@ -114,7 +134,7 @@ def main():
         # Draw everything
         WIN.fill(WHITE)
         pygame.draw.rect(WIN, BLACK, (0, HEIGHT-10, WIDTH, 10))  # Ground
-        pygame.draw.rect(WIN, RED, player.rect)  # Player
+        WIN.blit(player.image, player.rect)  # Player
 
         for obstacle in obstacles:
             pygame.draw.rect(WIN, BLACK, obstacle.rect)

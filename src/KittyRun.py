@@ -6,7 +6,7 @@ pygame.init()
 # Game window
 WIDTH, HEIGHT = 800, 400
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Jump Kitty Jump")
+
 
 # Colors
 WHITE = (255, 255, 255)

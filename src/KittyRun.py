@@ -60,7 +60,7 @@ class Background:
 
     def draw(self, surface):
         surface.blit(BACKGROUND_IMG, (self.x1, 0))
-        surface.blit(BACKGROUND_IMG, (self.x1, 0))
+        surface.blit(BACKGROUND_IMG, (self.x2, 0))
 
 
 
@@ -137,8 +137,7 @@ def main():
                 if event.key == pygame.K_SPACE:
                     player.jump()
 
-        background.update()
-        player.update()
+       
 
 
         # Spawn obstacles every 60 frames (~1 second at 60 FPS)
@@ -171,7 +170,7 @@ def main():
         WIN.blit(player.image, player.rect)  # Player
 
         for obstacle in obstacles:
-            pygame.draw.rect(WIN, BLACK, obstacle.rect)
+            pygame.draw.rect(WIN, RED, obstacle.rect)
 
         # Draw score text
         font = pygame.font.Font(None, 36)

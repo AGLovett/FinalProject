@@ -3,7 +3,7 @@ import random
 
 
 pygame.init()
-
+#reminder use PISKEL for pxiel art 
 # Game window
 WIDTH, HEIGHT = 800, 400
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -17,6 +17,11 @@ RED = (255, 0, 0)
 # Loading in sprite sheet!
 SPRITE_SHEET = pygame.image.load("Kitty.png").convert_alpha()
 
+# loading in background !
+BACKGROUND_IMG = pygame.image.load("background.png").convert()
+# matching game height
+BG_WIDTH = BACKGROUND_IMG.get_width()
+BACKGROUND_IMG = pygame.transform.scale(BACKGROUND_IMG, (BG_WIDTH, HEIGHT))
 
 #  New Player settings
 PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
@@ -35,6 +40,16 @@ for i in range(FRAME_COUNT):
 # Obstacle settings
 OBSTACLE_WIDTH, OBSTACLE_HEIGHT = 30, 50
 OBSTACLE_SPEED = 7
+
+class Background:
+    def __init__(self):
+        self.x1 = 0
+        self.x2 = BG_WIDTH
+        self.speed = 2
+
+
+
+
 
 class Player:
     def __init__(self):

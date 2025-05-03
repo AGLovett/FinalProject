@@ -42,10 +42,10 @@ OBSTACLE_WIDTH, OBSTACLE_HEIGHT = 30, 50
 OBSTACLE_SPEED = 7
 
 class Background:
-    def __init__(self):
+    def __init__(self, speed):
         self.x1 = 0
         self.x2 = BG_WIDTH
-        self.speed = 2
+        self.speed = speed 
 
     def update(self):
         # move background hopefully
@@ -53,10 +53,11 @@ class Background:
         self.x2 -= self.speed
 
         # reset when image scrolls off screen
-        if self.x1 + BG_WIDTH < 0:
-            self.x1 = BG_WIDTH
-        if self.x2 + BG_WIDTH < 0:
-            self.x2 = BG_WIDTH
+        if self.x1 + BG_WIDTH <= 0:
+            self.x1 = self.x2 + BG_WIDTH
+        if self.x2 + BG_WIDTH <= 0:
+            self.x2 = self.x1 + BG_WIDTH
+
 
     def draw(self, surface):
         surface.blit(BACKGROUND_IMG, (self.x1, 0))
@@ -119,7 +120,7 @@ def main():
     fps = 60
 
     player = Player()
-    background = Background()
+    background = Background(OBSTACLE_SPEED)
     obstacles = []
     spawn_timer = 0
     score = 0
@@ -127,14 +128,14 @@ def main():
     running = True
     while running:
         clock.tick(fps)
-        spawn_timer += 1  # <-- Indent everything under the loop!
+        spawn_timer += 1 
 
         # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and event.key == pygame.K_SPACE:
                     player.jump()
 
        

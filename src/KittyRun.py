@@ -128,7 +128,7 @@ class Player:
         self.rect.y += self.velocity
 
         if self.rect.bottom >= HEIGHT - GROUND_HEIGHT:
-            GROUND_IMG = pygame.transfrom.scale 
+            GROUND_IMG = pygame.transform.scale 
             GROUND_HEIGHT + GROUND_IMG.get_height()
             self.on_ground = True
             self.velocity = 0

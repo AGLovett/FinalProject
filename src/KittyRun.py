@@ -156,6 +156,11 @@ def game_over(screen, score):
 
     game_over_text = font.render("Game Over Kitty!", True, 255, 0, 0)
     screen.blit(game_over_text, (WIDTH//2 - 140, HEIGHT//2 -100))
+
+    #Final score
+    score_font = pygame.font.Font(None, 50)
+    score_text = score_font.render(f"Meow Final Score is: {score}", True, (0,0,0))
+    screen.blit(score_text, (WIDTH//2 - 120, HEIGHT//2))
  
 
 def main():

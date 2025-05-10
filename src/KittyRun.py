@@ -164,24 +164,23 @@ def game_over(screen, score):
 
     #replay
     replay_font = pygame.font.Font(None, 36)
-    replay_text = replay_font.render("Meow, Want to Play Again?", True, (0,0,0))
-    screen.blit(replay_text, (WIDTH//2 - 100, HEIGHT//2 +50))
+    replay_text = replay_font.render("Meow, Press Space to Play Again Meow", True, (0,0,0))
+    replay_rect = replay_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 80))
+    screen.blit(replay_text, replay_rect)
 
     pygame.display.flip()
  
     waiting = True
+
     while waiting:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
                 return False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                waiting = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.k_SPACE:
-                    waiting = False
+                if event.key == pygame.K_SPACE:
+                    return True
                 pygame.time.Clock().tick(60)
-            return True
+           
 
 
 def main():
@@ -230,6 +229,8 @@ def main():
             for obstacle in obstacles:
                 if player.rect.colliderect(obstacle.rect):
                     running = False  # End game on collision
+                    pygame.time.wait(500) #pause
+                    running = False
 
             # Update score when passing obstacles
             for obstacle in obstacles:

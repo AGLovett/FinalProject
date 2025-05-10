@@ -9,10 +9,7 @@ WIDTH, HEIGHT = 800, 400
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(" Get home kitty!")
 
-# Colors will remove once everything is done 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
+
 
 # Loading in sprite sheet!
 SPRITE_SHEET = pygame.image.load("Kitty.png").convert_alpha()
@@ -22,6 +19,12 @@ BACKGROUND_IMG = pygame.image.load("background.png").convert()
 # matching game height
 BG_WIDTH = BACKGROUND_IMG.get_width()
 BACKGROUND_IMG = pygame.transform.scale(BACKGROUND_IMG, (BG_WIDTH, HEIGHT))
+
+#loading ground image
+GROUND_IMG = pygame.image.load("ground.png").convert_alpha()
+GROUND_IMG = pygame.transform.scale(GROUND_IMG, (WIDTH, 10))
+GROUND_HEIGHT = GROUND_IMG.get_height()
+
 
 #loading obstacle imagies
 OBSTACLE_IMAGES = [
@@ -36,6 +39,10 @@ FRAME_COUNT = 4 # 4 frames in walk cycle
 ANIMATION_SPEED = 3 # might change based on everything else
 PLAYER_JUMP = -15
 GRAVITY = 1
+# Obstacle settings and background 
+BACKGROUND_SCROLL_SPEED = 3
+OBSTACLE_SPEED = 6
+GROUND_SCROLL_SPEED = OBSTACLE_SPEED
 
 PLAYER_FRAMES = []
 for i in range(FRAME_COUNT):
@@ -44,9 +51,29 @@ for i in range(FRAME_COUNT):
     )
     PLAYER_FRAMES.append(frame)
 
-# Obstacle settings and background 
-BACKGROUND_SCROLL_SPEED = 3
-OBSTACLE_SPEED = 6
+
+
+
+class Ground:
+    def __init__(self, speed):
+        self.x1 = 0
+        self.x2 = WIDTH
+        self.speed = speed
+        self.image = GROUND_IMG
+
+
+    def update(self):
+        self.x1 -= self.speed
+        self.x2 -= self.speed
+
+        if self.x1 + WIDTH <= 0:
+            self.x1 = self.x2 + WIDTH
+        if self.x2 + WIDTH <= 0:
+            self.x2 = self.x1 + WIDTH
+
+    def draw(self, surface):
+        surface.blit(self.image, (self.x1, HEIGHT - GROUND_HEIGHT))
+        surface.blit(self.image, (self.x2, HEIGHT - GROUND_HEIGHT))
 
 class Background:
     def __init__(self, speed):
@@ -55,22 +82,17 @@ class Background:
         self.speed = speed 
 
     def update(self):
-        # move background hopefully
         self.x1 -= self.speed
         self.x2 -= self.speed
 
-        # reset when image scrolls off screen
         if self.x1 + BG_WIDTH <= 0:
             self.x1 = self.x2 + BG_WIDTH
         if self.x2 + BG_WIDTH <= 0:
-            self.x2 = self.x1 + BG_WIDTH
-
+            self.x2 = self.x2 + BG_WIDTH
 
     def draw(self, surface):
         surface.blit(BACKGROUND_IMG, (self.x1, 0))
         surface.blit(BACKGROUND_IMG, (self.x2, 0))
-
-
 
 
 class Player:
@@ -80,9 +102,10 @@ class Player:
         self.animation_counter = 0
         self.image = self.frames[self.current_frame]
         self.rect = self.image.get_rect()
-        self.rect.topleft = (100, HEIGHT - PLAYER_HEIGHT - 10)
+        self.rect.topleft = (100, HEIGHT - PLAYER_HEIGHT - GROUND_HEIGHT)
         self.velocity = 0
         self.on_ground = True
+        
 
     def updated_animation(self):  #animated while on ground
         if self.on_ground:
@@ -104,18 +127,19 @@ class Player:
         self.velocity += GRAVITY
         self.rect.y += self.velocity
 
-        if self.rect.bottom >= HEIGHT - 10:
-            self.rect.bottom = HEIGHT - 10
+        if self.rect.bottom >= HEIGHT - GROUND_HEIGHT:
+            self.rect.bottom = HEIGHT - GROUND_HEIGHT
             self.on_ground = True
             self.velocity = 0
         
 
         self.updated_animation()
+
 class Obstacle:
     def __init__(self, image):
         self.image = image
         self.rect = self.image.get_rect()
-        self.rect.bottom = HEIGHT - 10
+        self.rect.bottom = HEIGHT - GROUND_HEIGHT
         self.rect.left = WIDTH
         self.active = True
         self.passed = False  # Tracks if obstacle was passed
@@ -132,8 +156,9 @@ def main():
     player = Player()
     background = Background(BACKGROUND_SCROLL_SPEED)
     obstacles = []
-    spawn_timer = 0
+    spawn_timer = 0 
     score = 0
+    ground = Ground(OBSTACLE_SPEED)
 
     running = True
     while running:
@@ -148,16 +173,16 @@ def main():
                 if event.key == pygame.K_SPACE:
                     player.jump()
 
-       
+        ground.update()
         background.update()
 
+        player.update()
         # Spawn obstacles every 60 frames (~1 second at 60 FPS)
         if spawn_timer >= 60:
             obstacles.append(Obstacle(random.choice(OBSTACLE_IMAGES)))
             spawn_timer = 0  # Reset timer
 
-        # Update player and obstacles
-        player.update()
+        
         for obstacle in obstacles:
             obstacle.update()
 
@@ -177,7 +202,7 @@ def main():
 
         # Draw everything
         background.draw(WIN)
-        pygame.draw.rect(WIN, BLACK, (0, HEIGHT-10, WIDTH, 10))  # Ground
+        ground.draw(WIN)
         WIN.blit(player.image, player.rect)  # Player
 
         for obstacle in obstacles:
@@ -185,7 +210,7 @@ def main():
 
         # Draw score text
         font = pygame.font.Font(None, 36)
-        text = font.render(f"Score: {score}", True, BLACK)
+        text = font.render(f"Score: {score}", True, (0,0,0))
         WIN.blit(text, (10, 10))
 
         pygame.display.update()

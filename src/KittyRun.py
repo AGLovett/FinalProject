@@ -169,76 +169,97 @@ def game_over(screen, score):
 
     pygame.display.flip()
  
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.k_SPACE:
+                    waiting = False
+                pygame.time.Clock().tick(60)
+            return True
+
 
 def main():
     clock = pygame.time.Clock()
     fps = 60
+    
+    while True:
 
-    player = Player()
-    background = Background(BACKGROUND_SCROLL_SPEED)
-    obstacles = []
-    spawn_timer = 0 
-    score = 0
-    ground = Ground(GROUND_SCROLL_SPEED)
+        player = Player()
+        background = Background(BACKGROUND_SCROLL_SPEED)
+        obstacles = []
+        spawn_timer = 0 
+        score = 0
+        ground = Ground(GROUND_SCROLL_SPEED)
+        running = True
 
-    running = True
-    while running:
-        clock.tick(fps)
-        spawn_timer += 1 
+        while running:
+            
+            clock.tick(fps)
+            spawn_timer += 1 
 
-        # Handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.jump()
+            # Handle events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        player.jump()
 
-        ground.update()
-        background.update()
+            ground.update()
+            background.update()
 
-        player.update()
-        # Spawn obstacles every 60 frames (~1 second at 60 FPS)
-        if spawn_timer >= 60:
-            #making obstacles more fun
-            if not obstacles or obstacles[-1].rect.right < WIDTH -200:
-                obstacles.append(Obstacle(random.choice(OBSTACLE_IMAGES)))
-                spawn_timer = 0  # Reset timer
+            player.update()
+            # Spawn obstacles every 60 frames (~1 second at 60 FPS)
+            if spawn_timer >= 60:
+                #making obstacles more fun
+                if not obstacles or obstacles[-1].rect.right < WIDTH -200:
+                    obstacles.append(Obstacle(random.choice(OBSTACLE_IMAGES)))
+                    spawn_timer = 0  # Reset timer
 
-        
-        for obstacle in obstacles:
-            obstacle.update()
+            
+            for obstacle in obstacles:
+                obstacle.update()
 
-        # Check collisions
-        for obstacle in obstacles:
-            if player.rect.colliderect(obstacle.rect):
-                running = False  # End game on collision
+            # Check collisions
+            for obstacle in obstacles:
+                if player.rect.colliderect(obstacle.rect):
+                    running = False  # End game on collision
 
-        # Update score when passing obstacles
-        for obstacle in obstacles:
-            if not obstacle.passed and obstacle.rect.right < player.rect.left:
-                score += 1
-                obstacle.passed = True
+            # Update score when passing obstacles
+            for obstacle in obstacles:
+                if not obstacle.passed and obstacle.rect.right < player.rect.left:
 
-        # Remove off-screen obstacles
-        obstacles = [obs for obs in obstacles if obs.active]
+                    score += 1
+                    obstacle.passed = True
 
-        # Draw everything
-        background.draw(WIN)
-        ground.draw(WIN)
-        WIN.blit(player.image, player.rect)  # Player
+            # Remove off-screen obstacles
+            obstacles = [obs for obs in obstacles if obs.active]
 
-        for obstacle in obstacles:
-            WIN.blit(obstacle.image, obstacle.rect)
+            # Draw everything
+            background.draw(WIN)
+            ground.draw(WIN)
+            WIN.blit(player.image, player.rect)  # Player
+            for obstacle in obstacles:
+                WIN.blit(obstacle.image, obstacle.rect)
 
-        # Draw score text
-        font = pygame.font.Font(None, 36)
-        text = font.render(f"Score: {score}", True, (0,0,0))
-        WIN.blit(text, (10, 10))
+            # Draw score text
+            font = pygame.font.Font(None, 36)
+            text = font.render(f"Score: {score}", True, (0,0,0))
+            WIN.blit(text, (10, 10))
 
-        pygame.display.update()
+            pygame.display.update()
 
-    pygame.quit()
+        if not game_over(WIN, score):
+            break
+
+        pygame.quit()
+
 
 if __name__ == "__main__":
     main()

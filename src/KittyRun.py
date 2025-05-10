@@ -161,6 +161,13 @@ def game_over(screen, score):
     score_font = pygame.font.Font(None, 50)
     score_text = score_font.render(f"Meow Final Score is: {score}", True, (0,0,0))
     screen.blit(score_text, (WIDTH//2 - 120, HEIGHT//2))
+
+    #replay
+    replay_font = pygame.font.Font(None, 36)
+    replay_text = replay_font.render("Meow, Want to Play Again?", True, (0,0,0))
+    screen.blit(replay_text, (WIDTH//2 - 100, HEIGHT//2 +50))
+
+    pygame.display.flip()
  
 
 def main():

@@ -23,10 +23,17 @@ BACKGROUND_IMG = pygame.image.load("background.png").convert()
 BG_WIDTH = BACKGROUND_IMG.get_width()
 BACKGROUND_IMG = pygame.transform.scale(BACKGROUND_IMG, (BG_WIDTH, HEIGHT))
 
+#loading obstacle imagies
+OBSTACLE_IMAGES = [
+    pygame.image.load("mailbox.png").convert_alpha(),
+    pygame.image.load("trash.png").convert_alpha(),
+    pygame.image.load("gnome.png").convert_alpha()
+]
+
 #  New Player settings
 PLAYER_WIDTH, PLAYER_HEIGHT = 40, 60
 FRAME_COUNT = 4 # 4 frames in walk cycle
-ANIMATION_SPEED = 5 # might change based on everything else
+ANIMATION_SPEED = 3 # might change based on everything else
 PLAYER_JUMP = -15
 GRAVITY = 1
 
@@ -38,7 +45,7 @@ for i in range(FRAME_COUNT):
     PLAYER_FRAMES.append(frame)
 
 # Obstacle settings
-OBSTACLE_WIDTH, OBSTACLE_HEIGHT = 30, 50
+
 OBSTACLE_SPEED = 7
 
 class Background:
@@ -105,8 +112,11 @@ class Player:
 
         self.updated_animation()
 class Obstacle:
-    def __init__(self):
-        self.rect = pygame.Rect(WIDTH, HEIGHT - OBSTACLE_HEIGHT - 10, OBSTACLE_WIDTH, OBSTACLE_HEIGHT)
+    def __init__(self, image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.bottom = HEIGHT - 10
+        self.rect.left = WIDTH
         self.active = True
         self.passed = False  # Tracks if obstacle was passed
 
@@ -143,7 +153,7 @@ def main():
 
         # Spawn obstacles every 60 frames (~1 second at 60 FPS)
         if spawn_timer >= 60:
-            obstacles.append(Obstacle())
+            obstacles.append(Obstacle(random.choice(OBSTACLE_IMAGES)))
             spawn_timer = 0  # Reset timer
 
         # Update player and obstacles
@@ -171,7 +181,7 @@ def main():
         WIN.blit(player.image, player.rect)  # Player
 
         for obstacle in obstacles:
-            pygame.draw.rect(WIN, RED, obstacle.rect)
+            WIN.blit(obstacle.image, obstacle.rect)
 
         # Draw score text
         font = pygame.font.Font(None, 36)

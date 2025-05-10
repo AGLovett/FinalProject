@@ -150,55 +150,21 @@ class Obstacle:
             self.active = False
 
 
-def game_over(screen, score):
-    screen.fill((255, 255, 255))
-    font = pygame.font.Font(None, 74)
-
-    game_over_text = font.render("Game Over Kitty!", True, 255, 0, 0)
-    go_rect = game_over.get_rect(center=(WIDTH//2, HEIGHT//2 - 50))
-    screen.blit(game_over_text, go_rect)
-
-    #Final score
-    score_font = pygame.font.Font(None, 50)
-    score_text = score_font.render(f"Meow Final Score is: {score}", True, (0,0,0))
-    score_rect = score_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 20))
-    screen.blit(score_text, score_rect)
-
-    #replay
-    replay_font = pygame.font.Font(None, 36)
-    replay_text = replay_font.render("Meow, Press Space to Play Again Meow", True, (0,0,0))
-    replay_rect = replay_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 80))
-    screen.blit(replay_text, replay_rect)
-
-    pygame.display.flip()
- 
-    waiting = True
-
-    while waiting:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    return True
-                pygame.time.Clock().tick(60)
-           
-
 
 def main():
     clock = pygame.time.Clock()
     fps = 60
     
-    while True:
-        player = Player()
-        background = Background(BACKGROUND_SCROLL_SPEED)
-        obstacles = []
-        spawn_timer = 0 
-        score = 0
-        ground = Ground(GROUND_SCROLL_SPEED)
-        running = True
+    
+    player = Player()
+    background = Background(BACKGROUND_SCROLL_SPEED)
+    obstacles = []
+    spawn_timer = 0 
+    score = 0
+    ground = Ground(GROUND_SCROLL_SPEED)
+    running = True
 
-        while running:
+    while running:
             
             clock.tick(fps)
             spawn_timer += 1 
@@ -229,14 +195,15 @@ def main():
             # Check collisions
             for obstacle in obstacles:
                 if player.rect.colliderect(obstacle.rect):
+
                     background.draw(WIN)
                     ground.draw(WIN)
                     WIN.blit(player.image, player.rect)  # Player
                     for obstacle in obstacles:
                             WIN.blit(obstacle.image, obstacle.rect)
 
-                    pygame.time.wait(500) #pause
-                    running = False
+                  
+                  
 
             # Update score when passing obstacles
             for obstacle in obstacles:
@@ -256,9 +223,9 @@ def main():
 
             pygame.display.update()
 
-        if not game_over(WIN, score):
+        
             pygame.quit()
-            break
+            
 
         
 

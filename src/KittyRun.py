@@ -128,7 +128,8 @@ class Player:
         self.rect.y += self.velocity
 
         if self.rect.bottom >= HEIGHT - GROUND_HEIGHT:
-            self.rect.bottom = HEIGHT - GROUND_HEIGHT
+            GROUND_IMG = pygame.transfrom.scale 
+            GROUND_HEIGHT + GROUND_IMG.get_height()
             self.on_ground = True
             self.velocity = 0
         
@@ -146,7 +147,7 @@ class Obstacle:
 
     def update(self):
         self.rect.x -= OBSTACLE_SPEED
-        if self.rect.right < 0:
+        if self.rect.right < -50:
             self.active = False
 
 def main():
@@ -158,7 +159,7 @@ def main():
     obstacles = []
     spawn_timer = 0 
     score = 0
-    ground = Ground(OBSTACLE_SPEED)
+    ground = Ground(GROUND_SCROLL_SPEED)
 
     running = True
     while running:

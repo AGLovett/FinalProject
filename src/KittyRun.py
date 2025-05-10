@@ -149,6 +149,15 @@ class Obstacle:
         if self.rect.right < -50:
             self.active = False
 
+
+def game_over(screen, score):
+    screen.fill((255, 255, 255))
+    font = pygame.font.Font(None, 74)
+
+    game_over_text = font.render("Game Over Kitty!", True, 255, 0, 0)
+    screen.blit(game_over_text, (WIDTH//2 - 140, HEIGHT//2 -100))
+ 
+
 def main():
     clock = pygame.time.Clock()
     fps = 60
@@ -179,8 +188,10 @@ def main():
         player.update()
         # Spawn obstacles every 60 frames (~1 second at 60 FPS)
         if spawn_timer >= 60:
-            obstacles.append(Obstacle(random.choice(OBSTACLE_IMAGES)))
-            spawn_timer = 0  # Reset timer
+            #making obstacles more fun
+            if not obstacles or obstacles[-1].rect.right < WIDTH -200:
+                obstacles.append(Obstacle(random.choice(OBSTACLE_IMAGES)))
+                spawn_timer = 0  # Reset timer
 
         
         for obstacle in obstacles:

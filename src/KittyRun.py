@@ -145,11 +145,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE:
                     player.jump()
 
        
-
+        background.update()
 
         # Spawn obstacles every 60 frames (~1 second at 60 FPS)
         if spawn_timer >= 60:

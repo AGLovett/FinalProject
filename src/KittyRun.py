@@ -44,9 +44,9 @@ for i in range(FRAME_COUNT):
     )
     PLAYER_FRAMES.append(frame)
 
-# Obstacle settings
-
-OBSTACLE_SPEED = 7
+# Obstacle settings and background 
+BACKGROUND_SCROLL_SPEED = 3
+OBSTACLE_SPEED = 5
 
 class Background:
     def __init__(self, speed):
@@ -130,7 +130,7 @@ def main():
     fps = 60
 
     player = Player()
-    background = Background(OBSTACLE_SPEED)
+    background = Background(BACKGROUND_SCROLL_SPEED)
     obstacles = []
     spawn_timer = 0
     score = 0

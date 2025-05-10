@@ -155,12 +155,14 @@ def game_over(screen, score):
     font = pygame.font.Font(None, 74)
 
     game_over_text = font.render("Game Over Kitty!", True, 255, 0, 0)
-    screen.blit(game_over_text, (WIDTH//2 - 140, HEIGHT//2 -100))
+    go_rect = game_over.get_rect(center=(WIDTH//2, HEIGHT//2 - 50))
+    screen.blit(game_over_text, go_rect)
 
     #Final score
     score_font = pygame.font.Font(None, 50)
     score_text = score_font.render(f"Meow Final Score is: {score}", True, (0,0,0))
-    screen.blit(score_text, (WIDTH//2 - 120, HEIGHT//2))
+    score_rect = score_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 20))
+    screen.blit(score_text, score_rect)
 
     #replay
     replay_font = pygame.font.Font(None, 36)
@@ -188,7 +190,6 @@ def main():
     fps = 60
     
     while True:
-
         player = Player()
         background = Background(BACKGROUND_SCROLL_SPEED)
         obstacles = []
@@ -228,7 +229,12 @@ def main():
             # Check collisions
             for obstacle in obstacles:
                 if player.rect.colliderect(obstacle.rect):
-                    running = False  # End game on collision
+                    background.draw(WIN)
+                    ground.draw(WIN)
+                    WIN.blit(player.image, player.rect)  # Player
+                    for obstacle in obstacles:
+                            WIN.blit(obstacle.image, obstacle.rect)
+
                     pygame.time.wait(500) #pause
                     running = False
 
@@ -242,13 +248,7 @@ def main():
             # Remove off-screen obstacles
             obstacles = [obs for obs in obstacles if obs.active]
 
-            # Draw everything
-            background.draw(WIN)
-            ground.draw(WIN)
-            WIN.blit(player.image, player.rect)  # Player
-            for obstacle in obstacles:
-                WIN.blit(obstacle.image, obstacle.rect)
-
+        
             # Draw score text
             font = pygame.font.Font(None, 36)
             text = font.render(f"Score: {score}", True, (0,0,0))
@@ -257,9 +257,10 @@ def main():
             pygame.display.update()
 
         if not game_over(WIN, score):
+            pygame.quit()
             break
 
-        pygame.quit()
+        
 
 
 if __name__ == "__main__":

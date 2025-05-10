@@ -88,7 +88,7 @@ class Background:
         if self.x1 + BG_WIDTH <= 0:
             self.x1 = self.x2 + BG_WIDTH
         if self.x2 + BG_WIDTH <= 0:
-            self.x2 = self.x2 + BG_WIDTH
+            self.x2 = self.x1 + BG_WIDTH
 
     def draw(self, surface):
         surface.blit(BACKGROUND_IMG, (self.x1, 0))
@@ -128,8 +128,7 @@ class Player:
         self.rect.y += self.velocity
 
         if self.rect.bottom >= HEIGHT - GROUND_HEIGHT:
-            GROUND_IMG = pygame.transform.scale 
-            GROUND_HEIGHT + GROUND_IMG.get_height()
+            self.rect.bottom = HEIGHT - GROUND_HEIGHT
             self.on_ground = True
             self.velocity = 0
         

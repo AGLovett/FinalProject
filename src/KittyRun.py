@@ -46,7 +46,7 @@ for i in range(FRAME_COUNT):
 
 # Obstacle settings and background 
 BACKGROUND_SCROLL_SPEED = 3
-OBSTACLE_SPEED = 5
+OBSTACLE_SPEED = 6
 
 class Background:
     def __init__(self, speed):

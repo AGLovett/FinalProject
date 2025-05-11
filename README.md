@@ -2,7 +2,7 @@
 
 URL for GitHub: https://github.com/AGLovett/FinalProject.git 
 
-URL for Video:
+URL for Video: https://youtu.be/yh2HnlHlp4M 
 
 My game is called Kitty Run and it's a ever looping sidescroller game, much like the one google displays when your device doesn't have service! I took a lot of visual inspo from my favorite game Stardew Valley, it's made by one solo creator and it was originally supposed to me a basic game for his portfolio.
 

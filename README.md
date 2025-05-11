@@ -1,6 +1,6 @@
 **Title: Kitty Run ***
 
-URL for GitHub:
+URL for GitHub: https://github.com/AGLovett/FinalProject.git 
 
 URL for Video:
 

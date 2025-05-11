@@ -52,8 +52,6 @@ for i in range(FRAME_COUNT):
     PLAYER_FRAMES.append(frame)
 
 
-
-
 class Ground:
     def __init__(self, speed):
         self.x1 = 0
@@ -172,14 +170,13 @@ def main():
             # Handle events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
+                    running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         player.jump()
 
             ground.update()
             background.update()
-
             player.update()
             # Spawn obstacles every 60 frames (~1 second at 60 FPS)
             if spawn_timer >= 60:
@@ -195,25 +192,26 @@ def main():
             # Check collisions
             for obstacle in obstacles:
                 if player.rect.colliderect(obstacle.rect):
+                    running = False
 
-                    background.draw(WIN)
-                    ground.draw(WIN)
-                    WIN.blit(player.image, player.rect)  # Player
-                    for obstacle in obstacles:
-                            WIN.blit(obstacle.image, obstacle.rect)
-
-                  
-                  
 
             # Update score when passing obstacles
             for obstacle in obstacles:
                 if not obstacle.passed and obstacle.rect.right < player.rect.left:
 
                     score += 1
-                    obstacle.passed = True
 
             # Remove off-screen obstacles
             obstacles = [obs for obs in obstacles if obs.active]
+
+
+            obstacle.passed = True
+            background.draw(WIN)
+            ground.draw(WIN)
+            WIN.blit(player.image, player.rect)  # Player
+            for obstacle in obstacles:
+                WIN.blit(obstacle.image, obstacle.rect)
+
 
         
             # Draw score text

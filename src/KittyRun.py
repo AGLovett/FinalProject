@@ -200,12 +200,12 @@ def main():
                 if not obstacle.passed and obstacle.rect.right < player.rect.left:
 
                     score += 1
-
+                    obstacle.passed = True
             # Remove off-screen obstacles
             obstacles = [obs for obs in obstacles if obs.active]
 
 
-            obstacle.passed = True
+            
             background.draw(WIN)
             ground.draw(WIN)
             WIN.blit(player.image, player.rect)  # Player
@@ -222,11 +222,8 @@ def main():
             pygame.display.update()
 
         
-            pygame.quit()
+    pygame.quit()
             
-
-        
-
 
 if __name__ == "__main__":
     main()
